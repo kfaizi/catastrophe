@@ -93,6 +93,7 @@ DEPENDENCIES
   jekyll-sitemap
   jemoji
   nokogiri (>= 1.10.8)
+  rouge (~> 3.20)
 
 BUNDLED WITH
    2.1.2

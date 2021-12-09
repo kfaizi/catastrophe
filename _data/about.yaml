@@ -10,9 +10,19 @@
 # The content below will appear 
 
 title: >
+  <center>
   Modeling Microtubule Catastrophe
+  </center>
+
 authors: >
-  Kian Faizi☭, David Jin☭, James Mullahoo☭, Ziyan Wu☭ (☭ = authors contributed equally)
+  <center>
+  Kian Faizi☭, David Jin☭, James Mullahoo☭, Ziyan Wu☭
+  </center>
+
+  <center>
+  (☭ = authors contributed equally)
+  </center>
+
 Abstract: >
   "The four stages of acceptance:
 
@@ -28,148 +38,156 @@ Abstract: >
   -- JBS Haldane, 1963
 
 
-  The structure of the eukaryotic cell arises from the dance of the cytoskeleton, a network of countless protein filaments that shrink and grow dynamically. A major constituent of this network is tubulin, a monomeric protein which can polymerize to form large strands called microtubules. Along with their associated motor proteins, microtubules serve as intracellular highways for shuttling and organizing the contents of the cytoplasm. They are characterized by a slow growth phase followed by sudden rapid depolymerization known as _catastrophe_. A precise, quantitative understanding of microtubule dynamics would help elucidate the fundamental principles controlling growth and form inside the crowded cell.
+  The structure of the eukaryotic cell arises from the dance of the cytoskeleton, a network of protein filaments that shrink and grow dynamically. A major constituent of this network is tubulin, a monomeric protein which can polymerize to form large strands called microtubules. Along with their associated motor proteins, microtubules serve as intracellular highways for shuttling and organizing the contents of the cytoplasm. They are characterized by a slow growth phase followed by sudden rapid depolymerization known as _catastrophe_. A precise, quantitative understanding of microtubule dynamics would help elucidate the fundamental principles controlling growth and form inside the crowded cell.
 
 
-  In a 2011 publication, [Gardner et al.](https://www.sciencedirect.com/science/article/pii/S0092867411012876?via%3Dihub#!) studied the occurence of microtubule catastrophe by watching the behavior of tubulin _in vitro_ (along with many other experiments). Here, we explore their dataset by validating the results of a control experiment, and subsequently compare two statistical models for the dynamics of microtubule catastrophe.
+  In a 2011 publication, [Gardner et al.](https://www.sciencedirect.com/science/article/pii/S0092867411012876?via%3Dihub#!) studied the occurence of microtubule catastrophe by watching the behavior of tubulin _in vitro_. Here, we explore a subset of their dataset by validating the results of a control experiment, and subsequently compare two statistical models for the dynamics of microtubule catastrophe.
 
 Methods:  >
 
   ### Experimental Setup
 
-  Fluorescently-labeled GTP-tubulin at a concentration of 12 μM was assembled onto stabilized seeds of GMPCPP-tubulin on a coverslip. Total internal reflection fluorescence (TIRF) microscopy was then used to track microtubule dynamics and record catastrophe times (Fig 2A, green). To control for phototoxicity, these measurements were repeated with unlabeled GTP-tubulin using differential interference contrast (DIC) microscopy (Fig 2A, blue). These data can be found in **File 1**.
+  Fluorescently-labeled GTP-tubulin at a concentration of 12 μM was assembled onto stabilized seeds of GMPCPP-tubulin on a coverslip. Total internal reflection fluorescence (TIRF) microscopy was then used to track microtubule dynamics and record catastrophe times (Fig 2A, green). To control for phototoxicity, these measurements were repeated with unlabeled GTP-tubulin using differential interference contrast (DIC) microscopy (Fig 2A, blue). These data can be found in [File 1](/code.html).
 
 
-  <img src="assets/img/fig2-gardner.jpg" width=600/>
-
-  _Fig 2A: Control experiments with labeled tubulin measured by TIRF microscopy (green) and unlabeled tubulin measured by DIC microscopy (blue). An ECDF of catastrophe times is shown._
-
-
-  Using TIRF, catastrophe times were then measured for a range of tubulin concentrations from 7 to 14 μM (Fig 3D). These data can be found in **File 2**.
+  <img src="assets/img/fig2-gardner.jpg" width=400/>
+  
+  _Gardner et al. Fig 2A: Empirical CDFs of catastrophe times from control experiments with labeled tubulin (green, measured by TIRF microscopy) and unlabeled tubulin (blue, measured by DIC microscopy)._
 
 
-  <img src="assets/img/fig3-gardner.jpg" width=600/>
+  Using TIRF, catastrophe times were then measured for a range of labeled tubulin concentrations from 7 to 14 μM (Fig 3D). These data can be found in [File 2](/code.html).
 
-  _Fig 3D: ECDFs of catastrophe times for various concentrations of free labeled GTP-tubulin. Red: 7 μM; yellow: 9 μM; green: 10 μM; blue: 12 μM; purple: 14 μM._
+
+  <img src="assets/img/fig3-gardner.jpg" width=400/>
+
+  _Gardner et al. Fig 3D: ECDFs of catastrophe times for various concentrations of free labeled GTP-tubulin. Red: 7 μM; yellow: 9 μM; green: 10 μM; blue: 12 μM; purple: 14 μM._
 
 Results:  >
 
+  ### Code Availability
+
+  All code used in the following analysis is available on the corresponding [page](/code.html) of this website. In addition, the relevant function calls are noted where relevant, e.g. alongside the figure they were used to generate.
+  
+
   ### Validating Controls
 
-  To begin, we set out to validate the dataset and check whether labeled tubulin catastrophizes significantly differently than unlabeled tubulin, as was done in Figure 2A. We generated ECDFs from the control data with 95% confidence intervals, confirming that they recapitulate the results of Figure 2A (`plot_ECDF_controls()`):
+  To begin, we set out to validate the dataset and check whether labeled tubulin catastrophizes significantly differently than unlabeled tubulin, as was done in Figure 2A. We generated ECDFs from the control data with 95% confidence intervals, confirming that they recapitulate the results of Figure 2A (<span class='inline-code'>plot_ECDF_controls()</span>):
 
 
-  <img src="assets/img/control-ecdfs" width=500/>
+  <img src="assets/img/control-ecdfs" width=400/>
 
 
-  From visual inspection, it appears that the mean time to catastrophe is identically distributed for both tubulin types. We further quantified this by constructing a null hypothesis significance test (NHST) using the [two-sample Kolmogorov-Smirnov test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test#Two-sample_Kolmogorov%E2%80%93Smirnov_test), for the null hypothesis that the distributions of mean time to catastrophe are identical for labeled and unlabeled tubulin. This yielded a KS value of 0.103, and a p-value of 0.451, meaning we cannot reasonably reject the null hypothesis (`control_NHST()`). Therefore, our NHST also suggests that the distributions of catastrophe times are indeed identical.
+  From visual inspection, it appears that the mean time to catastrophe is identically distributed for both tubulin types. We further quantified this by constructing a null hypothesis significance test (NHST) using the [two-sample Kolmogorov-Smirnov test](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test#Two-sample_Kolmogorov%E2%80%93Smirnov_test), for the null hypothesis that the distributions of mean time to catastrophe for labeled and unlabeled tubulin are identical (<span class='inline-code'>control_NHST()</span>). This yielded a KS-statistic value of 0.103, and a p-value of 0.451, meaning we cannot reasonably reject the null hypothesis. Therefore, our NHST also suggests that the distributions of catastrophe times are indeed identical.
 
 
-  With this baseline validation complete, we proceeded to analyze the results of the next experiment.
+  With this baseline validation complete, we proceeded to compare two potential models for microtubule catastrophe.
 
 
-  ### Catastrophe as a Function of Tubulin Levels
-
-
-  We next explored the effect of titrating free tubulin concentrations on catastrophe times, using the data provided in File 2. We generated ECDFs with 95% confidence intervals, recapitulating the results of Figure 3D (`plot_ECDF_exp()`):
-
-
-  <img src="assets/img/exp-ecdfs" width=500/>
-
-
-  #### A Tournament of Two Models
-
-
-  Next, we sought to compare two potential models for microtubule catastrophe.
+  ### A Tale of Two Models
 
 
   In their paper, Gardner et al. model microtubule catastrophe times with a Gamma distribution, with the following justification: we know that the Gamma distribution describes the waiting time for $\alpha$ arrivals of a Poisson process. Inside the cell, microtubule instability arises as a function of various stochastic molecular events, many of which can be thought of as Poisson processes. For example, the loss of a GTP cap from a tubulin subunit happens infrequently and at some average rate. Assuming that the events leading to catastrophe (e.g. the loss of a critical number of GTP caps) all occur at the same rate, then the time to catastrophe is the sum of exponentially distributed waiting times, which indeed makes it Gamma.[^1]
 
 
+  [^1]: It would be interesting to investigate whether the various assumptions associated with this model are valid in practice. For example, the mechanism of GTP hydrolysis may mean that different caps are lost at different rates. The "memoryless" property associated with Poisson processes may also be violated if a binding/unbinding event biases the probabilities of subsequent events, which happens in some thermodynamic models of allostery.
+
+
   Alternatively, we might posit that two successive biochemical processes (for example, the loss of two GTP caps) might have to occur in order to trigger catastrophe. If each process is Poisson, then this system could be modeled as the sum of two Exponential waiting times. When the rates are unique, this model is defined analytically by the following PDF:
 
+  <center>
+  $ f(y;\beta_1, \beta_2)=(\frac{\beta_1\beta_2}{\beta_2 - \beta_1})(\mathrm{e}^{-\beta_1 t} - \mathrm{e}^{-\beta_2 t}) $
+  </center>
 
-  $$f(y;\beta_1, \beta_2)=(\frac{\beta_1\beta_2}{\beta_2 - \beta_1})(\mathrm{e}^{-\beta_1 t} - \mathrm{e}^{-\beta_2 t})$$
-
-
-  where each $\beta$ is the arrival rate for the corresponding Poisson process. 
-
-
-  [^1] It would be interesting to investigate whether the various assumptions associated with this model are valid in practice. For example, the mechanism of GTP hydrolysis may mean that different caps are lost at different rates. The "memoryless" property associated with Poisson processes may also be violated if a binding/unbinding event biases the probabilities of subsequent events, which happens in some thermodynamic models of allostery.
+  where each $\beta$ is the arrival rate for the corresponding Poisson process. We note that when $\beta_1 = \beta_2$, this successive Poisson model collapses back into the Gamma model.
 
 
-  ##### Gamma
+  ### Gamma
 
 
-  The Gamma model is parametrized by $\alpha$, the number of arrivals, and $\beta$, the arrival rate. We obtained maximum likelihood estimates (MLEs) for both parameters, along with bootstrapped 95% confidence intervals (n=10,000, parametric method, `report_gamma_ci()`), based on the control data for labeled tubulin:
+  The Gamma model is parametrized by $\alpha$, the number of arrivals, and $\beta$, the arrival rate. We obtained maximum likelihood estimates (MLEs) for both parameters, along with bootstrapped 95% confidence intervals (n=10,000, parametric method, <span class='inline-code'>report_gamma_ci()</span>), based on the control data for labeled tubulin:
 
 
   - MLE of $\alpha$ w/ 95% CI, labeled tubulin: 2.4076, [2.0384, 2.9255]
+
   - MLE of $\beta$ w/ 95% CI, labeled tubulin: 0.0055, [0.0045, 0.0068]
 
 
-  By using these parameter estimates to parametrize a Gamma distribution, we can then compare our model to the dataset (`gamma_compare_MLE_ECDF()`):
+  By using these parameter estimates to parametrize a Gamma distribution, we can then compare our model to the dataset (<span class='inline-code'>gamma_compare_MLE_ECDF()</span>):
 
 
-  <img src="assets/img/gamma-mle-control" width=500/>
+  <img src="assets/img/gamma-mle-control" width=400/>
 
 
   We observe excellent agreement between the Gamma model and the observations from experiment.
 
 
-  ##### Successive Poisson
+  ### Successive Poisson
 
 
-  We similarly computed MLEs for the successive Poisson process model (`report_diffpoisson()`). We note that when $\beta_1 = \beta_2$, the successive Poisson model collapses back into the Gamma model. CIs were not computed due to poor work ethic.
+  We similarly computed MLEs for the successive Poisson process model (<span class='inline-code'>report_diffpoisson()</span>). CIs were not computed due to poor work ethic.
 
 
   - MLE of $\beta_1$, labeled tubulin: 0.0050
+
   - MLE of $\beta_2$, labeled tubulin: 0.0042
 
 
-  It is worth mentioning that we have encountered the problem of non-identifiability; it is impossible to tell from these data alone which physical processes have which of these parameters, since the results would be identical if we switched their labels. Nonetheless, we can once again parametrize our distribution using these estimates and compare it to the ECDF (`diffpoisson_compare_MLE_ECDF()`):
+  It is worth mentioning that we have encountered the problem of non-identifiability; it is impossible to tell from these data alone which physical processes have which of these parameters, since the results would be identical if we switched their labels. Nonetheless, we can once again parametrize our distribution using these estimates and compare it to the ECDF (<span class='inline-code'>diffpoisson_compare_MLE_ECDF()</span>):
 
 
-  <img src="assets/img/diffpoisson-mle-control" width=500/>
+  <img src="assets/img/diffpoisson-mle-control" width=400/>
 
 
   The agreement between the model and experiment is still quite good, albeit with some divergence at shorter timescales.
 
 
-  ##### Model Assessment
+  ### Model Assessment
 
 
-  We can superimpose both CDFs at once to compare them more easily (`compare_model_CDFs()`):
+  We can superimpose both CDFs at once to compare them more easily (<span class='inline-code'>compare_model_CDFs()</span>):
 
 
-  <img src="assets/img/compare-control" width=500/>
+  <img src="assets/img/compare-control" width=400/>
 
 
-  It appears that the Gamma model is a better fit. We can more rigorously confirm this by calculating the Akaike information criterion (AIC) for both models; the model with the larger weight is a more likely match to the underlying generative distribution (`aic()`):
+  It appears that the Gamma model is a better fit. We can more rigorously confirm this by calculating the Akaike information criterion (AIC) for both models; the model with the larger weight is a more likely match to the underlying generative distribution (<span class='inline-code'>aic()</span>):
   
   - Gamma weight: 0.882
+
   - Successive Poisson weight: 0.118
 
 
-  Therefore, the Gamma model does a better job of capturing the underlying distribution of the data than the Successive Poisson model.
+  The Gamma model has a much higher AIC weight than the Successive Poisson model. Therefore, it does a better job of capturing the underlying distribution of the data.
 
 
-  #### A Microtubule History (Written By the Victor)
+  ### Catastrophe as a Function of Tubulin Levels
 
 
-  With the Gamma model emerging triumphant, we used it to interpret the results of the titrated tubulin experiments (`report_gamma_params()`):
+  With the Gamma model emerging triumphant, we next explored the effect of titrating free tubulin concentrations on catastrophe times, using the data provided in [File 2](/code.html). We generated ECDFs with 95% confidence intervals, recapitulating the results of Figure 3D (<span class='inline-code'>plot_ECDF_exp()</span>):
+
+
+  <img src="assets/img/exp-ecdfs" width=400/>
+
+  
+  Using numerical optimization, we then obtained MLE parameter estimates for $\alpha$ and $\beta$ across all tubulin concentrations (<span class='inline-code'>report_gamma_params()</span>):
 
 
   |Free tubulin concentration (uM)| $\alpha$ MLE | $\beta$ MLE |
-  |---|--|--|
-  |7|2.443781|0.007550
-  |9|2.680065|0.008780
-  |10|3.210908|0.009030
-  |12|2.915574|0.007661
-  |14|3.361823|0.007176
+
+  |---|---|---|
+
+  |7|2.443781|0.007550|
+
+  |9|2.680065|0.008780|
+
+  |10|3.210908|0.009030|
+
+  |12|2.915574|0.007661|
+
+  |14|3.361823|0.007176|
 
 
-  We note that $\alpha$ generally increases with concentration, but $\beta$ peaks around 10 μM before decreasing. Since we know that tubulin polymerizes more quickly at higher free tubulin concentrations, it seems that more "events" can occur before the onset of catastrophe in this regime. However, the trend in $\beta$ may indicate that at very high concentrations, there is some stoichiometric exclusion of other necessary factors which are also needed for microtubule stability.
+  We note that $\alpha$ generally increases with concentration, but $\beta$ peaks around 10 μM before decreasing. Since we know that tubulin polymerizes more quickly at higher free tubulin concentrations, it seems that more tubulin arrival events can occur before the onset of catastrophe in this regime. However, the trend in $\beta$ may indicate that at very high concentrations, there is some stoichiometric exclusion of other necessary factors which are also needed for microtubule stability.
 
 
 Discussion:  >
@@ -179,3 +197,5 @@ Discussion:  >
 
 Acknowledgments: > 
   We'd like to thank Professor Justin Bois and the intrepid BE/Bi 103a TAs of 2021 for an excellent and challenging quarter, as well as Gardner et al. for sharing their dataset!
+
+Footnotes & Miscellania: >
