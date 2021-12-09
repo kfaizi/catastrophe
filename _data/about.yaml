@@ -47,7 +47,7 @@ Methods:  >
 
   ### Experimental Setup
 
-  Fluorescently-labeled GTP-tubulin at a concentration of 12 μM was assembled onto stabilized seeds of GMPCPP-tubulin on a coverslip. Total internal reflection fluorescence (TIRF) microscopy was then used to track microtubule dynamics and record catastrophe times (Fig 2A, green). To control for phototoxicity, these measurements were repeated with unlabeled GTP-tubulin using differential interference contrast (DIC) microscopy (Fig 2A, blue). These data can be found in [File 1](/code.html).
+  Fluorescently-labeled GTP-tubulin at a concentration of 12 μM was assembled onto stabilized seeds of GMPCPP-tubulin on a coverslip. Total internal reflection fluorescence (TIRF) microscopy was then used to track microtubule dynamics and record catastrophe times (Fig 2A, green). To control for phototoxicity, these measurements were repeated with unlabeled GTP-tubulin using differential interference contrast (DIC) microscopy (Fig 2A, blue). These data can be found in [File 1]({{site.url}}{{site.baseurl}}/code.html).
 
 
   <img src="assets/img/fig2-gardner.jpg" width=400/>
@@ -55,7 +55,7 @@ Methods:  >
   _Gardner et al. Fig 2A: Empirical CDFs of catastrophe times from control experiments with labeled tubulin (green, measured by TIRF microscopy) and unlabeled tubulin (blue, measured by DIC microscopy)._
 
 
-  Using TIRF, catastrophe times were then measured for a range of labeled tubulin concentrations from 7 to 14 μM (Fig 3D). These data can be found in [File 2](/code.html).
+  Using TIRF, catastrophe times were then measured for a range of labeled tubulin concentrations from 7 to 14 μM (Fig 3D). These data can be found in [File 2]({{site.url}}{{site.baseurl}}/code.html).
 
 
   <img src="assets/img/fig3-gardner.jpg" width=400/>
@@ -66,7 +66,7 @@ Results:  >
 
   ### Code Availability
 
-  All code used in the following analysis is available on the corresponding [page](/code.html) of this website. In addition, the relevant function calls are noted where relevant, e.g. alongside the figure they were used to generate.
+  All code used in the following analysis is available on the corresponding [page]({{site.url}}{{site.baseurl}}/code.html) of this website. In addition, the relevant function calls are noted where relevant, e.g. alongside the figure they were used to generate.
   
 
   ### Validating Controls
@@ -163,7 +163,7 @@ Results:  >
   ### Catastrophe as a Function of Tubulin Levels
 
 
-  With the Gamma model emerging triumphant, we next explored the effect of titrating free tubulin concentrations on catastrophe times, using the data provided in [File 2](/code.html). We generated ECDFs with 95% confidence intervals, recapitulating the results of Figure 3D (<span class='inline-code'>plot_ECDF_exp()</span>):
+  With the Gamma model emerging triumphant, we next explored the effect of titrating free tubulin concentrations on catastrophe times, using the data provided in [File 2]({{site.url}}{{site.baseurl}}/code.html). We generated ECDFs with 95% confidence intervals, recapitulating the results of Figure 3D (<span class='inline-code'>plot_ECDF_exp()</span>):
 
 
   <img src="assets/img/exp-ecdfs" width=400/>
